@@ -710,9 +710,9 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { 
-  ChevronLeft, ChevronRight, ShoppingCart, Heart, Share2, Star, Check, 
-  Plus, Minus, RotateCcw, X, MapPin, Phone, User, Mail, CreditCard, 
-  Trash2, ListOrdered, Home
+  ChevronLeft, ChevronRight, ShoppingCart, Check, 
+  Plus, Minus, RotateCcw, X, CreditCard, 
+  Trash2, ListOrdered
 } from "lucide-react"
 
 import { Scene } from "./scene"
@@ -742,13 +742,13 @@ const EMOJI_OPTIONS = [
   { value: "no emoji", label: " No Emoji", emoji: "" },
 ]
 
-const DEFAULT_STATE = {
-  currentStep: "housing",
-  housingColor: HOUSING_COLORS[0].value,
-  switchType: SWITCH_TYPES[0].value,
-  keycap: KEYCAP_OPTIONS[0].value,
-  emoji: EMOJI_OPTIONS[0].value,
-}
+// const DEFAULT_STATE = {
+//   currentStep: "housing",
+//   housingColor: HOUSING_COLORS[0].value,
+//   switchType: SWITCH_TYPES[0].value,
+//   keycap: KEYCAP_OPTIONS[0].value,
+//   emoji: EMOJI_OPTIONS[0].value,
+// }
 
 type CartItem = {
   id: number;
@@ -780,7 +780,6 @@ type OrderStep = "customizing" | "review" | "shipping" | "confirmation"
 
 export default function FidgetClickerCustomizer() {
   const { state, updateState, updateStep, resetState } = useCustomizerState()
-  const [isWishlisted, setIsWishlisted] = useState(false)
   const [quantity, setQuantity] = useState(1)
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [orderStep, setOrderStep] = useState<OrderStep>("customizing")
@@ -820,7 +819,7 @@ export default function FidgetClickerCustomizer() {
   const decreaseQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : 1)
 
   const addToCart = () => {
-    const newItem: CartItem = {
+    const newItem: any = {
       id: Date.now(),
       ...state,
       quantity,
@@ -829,7 +828,7 @@ export default function FidgetClickerCustomizer() {
         housingColor: state.housingColor,
         switchType: state.switchType,
         keycap: state.keycap,
-        emoji: state.emoji
+        emoji: state.emoji as any
       }
     }
     setCartItems(prev => [...prev, newItem])
@@ -903,12 +902,12 @@ export default function FidgetClickerCustomizer() {
   const getOptionLabel = (type: "housing" | "switch" | "keycap" | "emoji", value: string) => {
     const options = type === "housing" ? HOUSING_COLORS : 
                    type === "switch" ? SWITCH_TYPES : 
-                   type === "emoji" ? EMOJI_OPTIONS : KEYCAP_OPTIONS
-    return options.find(opt => opt.value === value)?.label || value
+                   type === "emoji" ? EMOJI_OPTIONS : KEYCAP_OPTIONS as any
+    return options.find((opt: any) => opt.value === value)?.label  || value
   }
 
   const getEmojiByValue = (value: string) => {
-    return EMOJI_OPTIONS.find(opt => opt.value === value)?.emoji || "❓"
+    return EMOJI_OPTIONS.find((opt: any) => opt.value === value)?.emoji || "❓"
   }
 
   // Render different content based on order step
@@ -989,7 +988,7 @@ export default function FidgetClickerCustomizer() {
           </div>
         )}
 
-        {state.currentStep === "emoji" && (
+        {state.currentStep === "emoji" as any && (
           <div className="space-y-4">
             <h3 className="font-semibold text-lg">Choose Your Emoji</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
@@ -1313,14 +1312,14 @@ export default function FidgetClickerCustomizer() {
 
   return (
     <div className="w-full h-full max-w-6xl mx-auto bg-background shadow-2xl rounded-3xl ">
-      <header className="border-b border-border rounded-3xl bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+      <header className="border-b border-border rounded-3xl bg-card/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
               <div className="font-bold text-2xl text-foreground">ClickCraft</div>
-              <Badge variant="secondary" className="hidden sm:inline-flex">
+              {/* <Badge variant="secondary" className="hidden sm:inline-flex">
                 Premium
-              </Badge>
+              </Badge> */}
             </div>
             
             <div className="flex items-center space-x-4">
@@ -1337,9 +1336,9 @@ export default function FidgetClickerCustomizer() {
                 </Button>
               )}
               
-              <Button variant="ghost" size="sm" className="hidden sm:inline-flex">
+              {/* <Button variant="ghost" size="sm" className="hidden sm:inline-flex">
                 Support
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>

@@ -1,7 +1,6 @@
 ﻿"use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import SplitText from "@/components/SplitText"
@@ -13,37 +12,51 @@ export function Navbar() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
   const navLinks = [
-    { href: "/", label: "World" },
-    { href: "/about", label: "Discover" },
-    { href: "/Store", label: "Treasure Box" },
+    { href: "#world", label: "World" },
+    { href: "#discover", label: "Discover" },
+    { href: "#treasure_box", label: "Treasure Box" },
     // { href: "/blog", label: "Blog" },
   ]
+  const smoothScroll = (href: string) => {
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href)
+      if (element) {
+        element.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        })
+      }
+    }
+    setIsMenuOpen(false)
+  }
+
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 w-full px-6 py-4 ">
-      <div className="flex items-center justify-between max-w-7xl mx-auto">
+      <div className="flex items-center justify-between max-w-7xl mx-auto bg-white/10 backdrop-blur-sm rounded-full px-2 py-2">
         {/* Logo */}
-        <Link href="/" className="flex items-center group">
+        <button           onClick={() => smoothScroll('#world')}
+ className="flex items-center group">
           <div className="flex items-center gap-2">
             <Image src="/logo.png" alt="logo" width={72} height={72} />
             <span className="text-xl font-bold text-foreground transition-all duration-300">
               {/* FIDGI™ */}
-              FIDGI™
+              Fidgi™
             </span>
           </div>
-        </Link>
+        </button>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center bg-[#00000080] backdrop-blur-xs rounded-full px-2 py-2 border border-white/10 shadow-lg">
           <div className="flex items-center gap-1">
             {navLinks.map((link) => (
-              <Link
+              <span
                 key={link.href}
-                href={link.href}
-                className="relative px-4 py-2 text-white text-sm font-medium rounded-full transition-all duration-300 group overflow-hidden"
+                className="relative cursor-pointer px-4 py-2 text-white text-sm font-medium rounded-full transition-all duration-300 group overflow-hidden"
               >
                 <span className="relative z-10 transition-all duration-300">
     <Shuffle
+    onClick={() => smoothScroll(link.href)}
       text={link.label}
       shuffleDirection="right"
       duration={0.5}
@@ -64,14 +77,15 @@ export function Navbar() {
       }}
     />
                 </span>
-              </Link>
+              </span>
             ))}
           </div>
           <Button
+            onClick={() => smoothScroll('#reach_out')}
             asChild
             className="ml-2 bg-white/90 text-black rounded-full px-6 py-2 text-sm font-medium transition-all duration-300 border border-white/20"
           >
-            <Link href="/contact">Reach Out</Link>
+            <span className="cursor-pointer hover:text-white">Reach Out</span>
           </Button>
         </div>
 
@@ -95,14 +109,14 @@ export function Navbar() {
           <div className="bg-gray-800/20 backdrop-blur-sm rounded-3xl p-6 border border-white/10 shadow-2xl">
             <div className="flex flex-col items-center gap-6">
               {navLinks.map((link, index) => (
-                <Link
+                <span
                   key={link.href}
-                  href={link.href}
-                  className={`relative text-black group ${isMenuOpen ? "animate-in slide-in-from-top-2" : ""}`}
+                  className={`relative cursor-pointer text-black group ${isMenuOpen ? "animate-in slide-in-from-top-2" : ""}`}
                   style={{ animationDelay: `${index * 100}ms` }}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => smoothScroll(link.href)}
                 >
                   <SplitText
+                    
   text={link.label}
   className="text-2xl font-semibold text-center text-black"
   delay={100}
@@ -117,16 +131,16 @@ export function Navbar() {
   onLetterAnimationComplete={() => {}}
 />
                     
-                </Link>
+                </span>
               ))}
               <Button
                 asChild
                 className={`bg-white/90 text-black rounded-full px-8 py-3 text-lg font-medium mt-2 transition-all duration-300 border border-white/20 ${isMenuOpen ? "animate-in slide-in-from-bottom-2" : ""}`}
                 style={{ animationDelay: "400ms" }}
               >
-                <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
+                <span className="cursor-pointer hover:text-white" onClick={() => smoothScroll('#reach_out')}>
                 Reach Out
-                </Link>
+                </span>
               </Button>
             </div>
           </div>

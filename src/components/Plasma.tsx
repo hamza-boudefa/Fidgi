@@ -207,7 +207,6 @@ export const Plasma: React.FC<PlasmaProps> = ({
       return { renderer, program, mesh };
     };
 
-    const { program } = setupWebGL();
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!mouseInteractive || !containerRef.current) return;

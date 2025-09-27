@@ -29,6 +29,7 @@ export interface ShuffleProps {
   triggerOnce?: boolean;
   respectReducedMotion?: boolean;
   triggerOnHover?: boolean;
+  onClick?: () => void;
 }
 
 const Shuffle: React.FC<ShuffleProps> = ({
@@ -54,7 +55,8 @@ const Shuffle: React.FC<ShuffleProps> = ({
   colorTo,
   triggerOnce = true,
   respectReducedMotion = true,
-  triggerOnHover = true
+  triggerOnHover = true,
+  onClick
 }) => {
   const ref = useRef<HTMLElement>(null);
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -351,7 +353,7 @@ const Shuffle: React.FC<ShuffleProps> = ({
   const classes = `${baseTw} ${ready ? 'visible' : 'invisible'} ${className}`.trim();
   const Tag = (tag || 'p') as keyof React.JSX.IntrinsicElements;
 
-  return React.createElement(Tag, { ref: ref as any, className: classes, style: commonStyle }, text);
+  return React.createElement(Tag, { ref: ref as any, className: classes, style: commonStyle, onClick }, text);
 };
 
 export default Shuffle;

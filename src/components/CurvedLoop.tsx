@@ -7,6 +7,13 @@ const CurvedLoop = ({
   curveAmount = 400,
   direction = 'left',
   interactive = true
+}: {
+  marqueeText: string;
+  speed: number;
+  className: string;
+  curveAmount: number;
+  direction: string;
+  interactive: boolean;
 }) => {
   const text = useMemo(() => {
     const hasTrailing = /\s|\u00A0$/.test(marqueeText);
@@ -36,14 +43,14 @@ const CurvedLoop = ({
   const ready = spacing > 0;
 
   useEffect(() => {
-    if (measureRef.current) setSpacing(measureRef.current.getComputedTextLength());
+    if (measureRef.current) setSpacing((measureRef.current as any).getComputedTextLength());
   }, [text, className]);
 
   useEffect(() => {
     if (!spacing) return;
     if (textPathRef.current) {
       const initial = -spacing;
-      textPathRef.current.setAttribute('startOffset', initial + 'px');
+      (textPathRef.current as any).setAttribute('startOffset', initial + 'px');
       setOffset(initial);
     }
   }, [spacing]);
@@ -54,12 +61,12 @@ const CurvedLoop = ({
     const step = () => {
       if (!dragRef.current && textPathRef.current) {
         const delta = dirRef.current === 'right' ? speed : -speed;
-        const currentOffset = parseFloat(textPathRef.current.getAttribute('startOffset') || '0');
+        const currentOffset = parseFloat((textPathRef.current as any).getAttribute('startOffset') || '0');
         let newOffset = currentOffset + delta;
         const wrapPoint = spacing;
         if (newOffset <= -wrapPoint) newOffset += wrapPoint;
         if (newOffset > 0) newOffset -= wrapPoint;
-        textPathRef.current.setAttribute('startOffset', newOffset + 'px');
+        (textPathRef.current as any).setAttribute('startOffset', newOffset + 'px');
         setOffset(newOffset);
       }
       frame = requestAnimationFrame(step);
@@ -68,7 +75,7 @@ const CurvedLoop = ({
     return () => cancelAnimationFrame(frame);
   }, [spacing, speed, ready]);
 
-  const onPointerDown = e => {
+  const onPointerDown = (e: any) => {
     if (!interactive) return;
     dragRef.current = true;
     lastXRef.current = e.clientX;
@@ -76,17 +83,17 @@ const CurvedLoop = ({
     e.target.setPointerCapture(e.pointerId);
   };
 
-  const onPointerMove = e => {
+  const onPointerMove = (e: any) => {
     if (!interactive || !dragRef.current || !textPathRef.current) return;
     const dx = e.clientX - lastXRef.current;
     lastXRef.current = e.clientX;
     velRef.current = dx;
-    const currentOffset = parseFloat(textPathRef.current.getAttribute('startOffset') || '0');
+    const currentOffset = parseFloat((textPathRef.current as any).getAttribute('startOffset') || '0');
     let newOffset = currentOffset + dx;
     const wrapPoint = spacing;
     if (newOffset <= -wrapPoint) newOffset += wrapPoint;
     if (newOffset > 0) newOffset -= wrapPoint;
-    textPathRef.current.setAttribute('startOffset', newOffset + 'px');
+    (textPathRef.current as any).setAttribute('startOffset', newOffset + 'px');
     setOffset(newOffset);
   };
 

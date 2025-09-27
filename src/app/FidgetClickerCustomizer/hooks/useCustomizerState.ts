@@ -10,7 +10,8 @@ const INITIAL_STATE: CustomizerState = {
         x: 0,
         y: 0,
         z: -96
-    }
+    },
+    emoji: ''
 };
 
 export const useCustomizerState = () => {

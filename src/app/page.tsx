@@ -1,28 +1,38 @@
 ﻿"use client";
-import Plasma from "@/components/Plasma";
 import CircularGallery from "../components/CircularGallery";
-import RotatingText from "../components/RotatingText";
-import CurvedLoop from "@/components/CurvedLoop";
+
 import { LayoutTextFlip } from "@/components/ui/LayoutTextFlip";
 import { motion } from "motion/react";
-import RippleGrid from "@/components/ui/RippleGrid";
 import { BackgroundLines } from "@/components/ui/background-lines";
 import { HoverBorderGradient } from "@/components/ui/GradiantBorderButton";
-import { HeroHighlight, Highlight } from "@/components/ui/HeroHighlight";
+import {  Highlight } from "@/components/ui/HeroHighlight";
 import { WhatWeProvide } from "@/components/WhatWeProvide";
 import HowItWorksSection from "@/components/HowItWorks";
 import FidgetClickerCustomizer from "./FidgetClickerCustomizer/FidgetClickerCustomizer";
 import Footer from "@/components/Footer";
 
 export default function Home() {
+  const smoothScroll = (href: string) => {
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href)
+      if (element) {
+        element.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        })
+      }
+    }
+  }
+
+
   return (
     <div className="min-h-screen w-full">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 text-center">
+      <section id="world" className="relative min-h-screen flex flex-col items-center justify-center px-4 text-center">
         <BackgroundLines  className="absolute inset-0" />
         
         <div className="max-w-4xl mx-auto relative z-10">
-          <motion.div className="relative mx-4 my-4 flex flex-col items-center justify-center gap-4 text-center sm:mx-0 sm:mb-0 sm:flex-row h-44">
+          <motion.div className="relative  mx-4 my-4 flex flex-col items-center justify-center gap-4 text-center sm:mx-0 sm:mb-0 sm:flex-row h-44">
             <LayoutTextFlip
               text=" FIDGI "
               words={["STRESSED? ", "BORED? ", "OVERSTIMULATED?  "]}
@@ -35,6 +45,7 @@ export default function Home() {
           
           <div className="flex justify-center text-center mt-6">
             <HoverBorderGradient
+              onClick={() => smoothScroll('#treasure_box')}
               containerClassName="rounded-full"
               as="button"
               className="dark:bg-black bg-white text-black dark:text-white flex items-center"
@@ -61,7 +72,7 @@ export default function Home() {
           />
         </div>
         <div id="rest" className="relative bottom-64">
-        <section className="py-20">
+        <section id="discover" className="py-20">
         {/* <HeroHighlight containerClassName="h-auto min-h-[400px]"> */}
           <motion.h1
             initial={{
@@ -95,10 +106,10 @@ export default function Home() {
       <section>
         <HowItWorksSection />
       </section>  
-      <section>
+      <section id="treasure_box">
         <FidgetClickerCustomizer  />
       </section>
-      <section>
+      <section id="reach_out">
         <Footer />
       </section>
       {/* Add more sections as needed */}

@@ -1,6 +1,6 @@
 import { useState, useEffect, memo } from 'react';
 import * as THREE from 'three';
-import { STLLoader, OBJLoader, MTLLoader } from 'three-stdlib';
+import { STLLoader } from 'three-stdlib';
 import { ModelProps } from '../types';
 
 interface STLModelProps extends ModelProps {

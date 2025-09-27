@@ -1,4 +1,5 @@
 export interface CustomizerState {
+    emoji: any;
     housingColor: string;
     switchType: string;
     keycap: string;

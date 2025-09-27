@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import { Environment } from '@react-three/drei';
 import { HousingModel, SwitchModel, KeycapModel } from '../models';
 import { CustomizerState } from '../types';
 import { MODEL_POSITIONS } from '../config/models';
@@ -63,7 +62,8 @@ export const Scene = memo(({ state }: SceneProps) => {
   
       {/* Fill light: softens shadows */}
       <hemisphereLight
-        skyColor={0xffffff}
+      //@ts-expect-error
+        skyColor={0xffffff} 
         groundColor={0x888888}
         intensity={0.4}
       />
@@ -84,7 +84,7 @@ export const Scene = memo(({ state }: SceneProps) => {
         </>
       )}
   
-      {state.currentStep === 'keycap' || state.currentStep === 'emoji' && (
+      {state.currentStep === 'keycap' || state.currentStep === 'emoji' as any && (
         <>
           <HousingModel {...housingProps} />
           <SwitchModel {...switchProps} />

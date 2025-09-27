@@ -15,7 +15,7 @@ interface OptionSelectorProps {
 
 export const OptionSelector = memo(({ 
   options, 
-  selectedOption, 
+ 
   onOptionSelect, 
   title, 
   layout = 'horizontal' 

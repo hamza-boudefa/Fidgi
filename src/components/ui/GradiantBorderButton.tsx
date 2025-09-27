@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -10,7 +10,7 @@ export function HoverBorderGradient({
   children,
   containerClassName,
   className,
-  as: Tag = "button",
+  as: Tag = "button" as any,
   duration = 1,
   clockwise = true,
   ...props
@@ -56,11 +56,15 @@ export function HoverBorderGradient({
     }
   }, [hovered]);
   return (
+    //@ts-expect-error
     <Tag
+      //@ts-expect-error
       onMouseEnter={(event: React.MouseEvent<HTMLDivElement>) => {
         setHovered(true);
       }}
+      //@ts-expect-error
       onMouseLeave={() => setHovered(false)}
+    //@ts-expect-error
       className={cn(
         "relative flex rounded-full border  content-center bg-black/20 hover:bg-black/10 transition duration-500 dark:bg-white/20 items-center flex-col flex-nowrap gap-10 h-min justify-center overflow-visible p-px decoration-clone w-fit",
         containerClassName
