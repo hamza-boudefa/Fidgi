@@ -350,7 +350,7 @@ const Shuffle: React.FC<ShuffleProps> = ({
     ...style
   };
 
-  const classes = `${baseTw} ${ready ? 'visible' : 'invisible'} ${className}`.trim();
+  const classes = `${baseTw} ${ready ? 'visible' : ''} ${className}`.trim();
   const Tag = (tag || 'p') as keyof React.JSX.IntrinsicElements;
 
   return React.createElement(Tag, { ref: ref as any, className: classes, style: commonStyle, onClick }, text);

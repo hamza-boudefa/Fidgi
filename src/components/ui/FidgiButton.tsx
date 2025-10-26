@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 const fidgiButtonVariants = cva(
-  "font-poppins font-semibold transition-all duration-300 relative overflow-hidden btn-click-sound",
+  "font-poppins font-semibold transition-all duration-300 relative overflow-hidden",
   {
     variants: {
       variant: {

@@ -712,7 +712,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { 
   ChevronLeft, ChevronRight, ShoppingCart, Check, 
   Plus, Minus, RotateCcw, X, CreditCard, 
-  Trash2, ListOrdered
+  Trash2, ListOrdered, Loader2
 } from "lucide-react"
 
 import { Scene } from "./scene"
@@ -794,6 +794,7 @@ export default function FidgetClickerCustomizer() {
   })
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [orderConfirmed, setOrderConfirmed] = useState(false)
+  const [isSubmittingOrder, setIsSubmittingOrder] = useState(false)
 
   const currentStepIndex = steps.findIndex((step) => step.id === state.currentStep)
   const currentStepData = steps[currentStepIndex]
@@ -873,11 +874,19 @@ export default function FidgetClickerCustomizer() {
     setOrderForm(prev => ({ ...prev, [field]: value }))
   }
 
-  const submitOrder = () => {
-    // Simulate order submission
-    console.log("Order submitted:", { items: cartItems, customer: orderForm })
-    setOrderStep("confirmation")
-    setOrderConfirmed(true)
+  const submitOrder = async () => {
+    setIsSubmittingOrder(true)
+    try {
+      // Simulate order submission with a delay
+      await new Promise(resolve => setTimeout(resolve, 1500))
+      console.log("Order submitted:", { items: cartItems, customer: orderForm })
+      setOrderStep("confirmation")
+      setOrderConfirmed(true)
+    } catch (error) {
+      console.error("Error submitting order:", error)
+    } finally {
+      setIsSubmittingOrder(false)
+    }
   }
 
   const startNewOrder = () => {
@@ -1264,10 +1273,19 @@ export default function FidgetClickerCustomizer() {
           variant="outline"
           className="flex-1 py-3 bg-green-600 hover:bg-green-700" 
           onClick={submitOrder}
-          disabled={!orderForm.fullName || !orderForm.phone || !orderForm.address || !orderForm.city}
+          disabled={!orderForm.fullName || !orderForm.phone || !orderForm.address || !orderForm.city || isSubmittingOrder}
         >
-          <CreditCard className="h-4 w-4 mr-2" />
-          Place Order
+          {isSubmittingOrder ? (
+            <>
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              Placing Order...
+            </>
+          ) : (
+            <>
+              <CreditCard className="h-4 w-4 mr-2" />
+              Place Order
+            </>
+          )}
         </Button>
       </div>
     </div>
